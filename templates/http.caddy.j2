@@ -1,0 +1,44 @@
+{% if test_https %}
+{{ test_url }} {
+{% else %}
+http://{{ test_url }}
+{% endif %}
+
+    {% if test_https %}
+    header / {
+        # Enable HTTP Strict Transport Security (HSTS) to force clients to always
+        # connect via HTTPS (do not use if only testing)
+        Strict-Transport-Security "max-age=31536000;"
+        # Enable cross-site filter (XSS) and tell browser to block detected attacks
+        X-XSS-Protection "1; mode=block"
+        # Prevent some browsers from MIME-sniffing a response away from the declared Content-Type
+        X-Content-Type-Options "nosniff"
+        # Disallow the site to be rendered within a frame (clickjacking protection)
+        X-Frame-Options "DENY"
+    }
+    {% else %}
+    tls off
+    {% endif %}
+
+    log {{ caddy_logs }}/{{ test_name }}/access.log {
+        rotate_size  100
+        rotate_age   30
+        rotate_keep  10
+    }
+
+    root {{ test_code }}/
+
+    gzip {
+        ext .jpg
+        level 9
+    }
+
+}
+
+{% if test_www %}
+www.{{ test_url }} {
+
+    redir https://{{ test_url }}
+
+}
+{% endif %}

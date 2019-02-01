@@ -1,0 +1,13 @@
+---
+# handlers file for galaxy-caddy
+
+- name: start caddy
+  service: name=caddy
+           state=started
+           enabled=yes
+           daemon_reload=yes
+
+- name: restart caddy
+  service: name=caddy
+           state=restarted
+           enabled=yes

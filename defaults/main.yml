@@ -1,0 +1,16 @@
+---
+# defaults file for galaxy-caddy
+
+caddy_home: /srv/caddy
+caddy_logs: /srv/caddy/logs
+caddy_conf: /etc/caddy
+caddy_confd: /etc/caddy/conf.d
+caddy_www: /var/www/caddy
+caddy_email: none@none.com
+caddy_update: yes
+
+test_url: none.none
+test_https: no
+test_name: test
+test_code: /var/www/caddy/test
+test_www: no

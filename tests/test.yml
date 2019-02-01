@@ -1,0 +1,5 @@
+---
+- hosts: galaxy-vagrant.example.com
+  remote_user: root
+  roles:
+    - { role: ../galaxy-caddy, test_url: test.none }

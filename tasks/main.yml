@@ -1,0 +1,85 @@
+---
+# tasks file for galaxy-caddy
+
+- name: Create Caddy user
+  user: name=caddy
+        system=yes
+        createhome=yes
+        home={{ caddy_home }}
+        shell=/bin/nologin
+  tags: user
+
+- name: Get all Caddy releases
+  get_url: url=https://api.github.com/repos/mholt/caddy/git/refs/tags
+           dest={{ caddy_home }}/releases
+           force=yes
+  when: caddy_update
+  register: caddy_releases_cache
+
+- name: Download new Caddy version or build
+  get_url: url=https://caddyserver.com/download/linux/amd64?license=personal
+           dest=/tmp/caddy.tar.gz
+           force=yes
+  when: caddy_releases_cache.changed
+  register: caddy_binary_cache
+
+- name: Extract new Caddy version or build
+  unarchive: src=/tmp/caddy.tar.gz
+             dest=/usr/bin/
+             copy=no
+  when: caddy_binary_cache.changed
+
+- name: Ensure setcap bin
+  apt: name=libcap2-bin
+       state=present
+
+- name: Check if the binary can bind to TCP port <1024
+  shell: getcap /usr/bin/caddy | grep cap_net_bind_service
+  failed_when: False
+  changed_when: False
+  register: caddy_bind_cap
+
+- name: Set capability on the binary file to be able to bind to TCP port <1024
+  command: setcap cap_net_bind_service=+ep /usr/bin/caddy
+  when: caddy_bind_cap.rc > 0
+
+- name: Create caddy needed directories
+  file: path={{ item }}
+        state=directory
+        owner=caddy
+  with_items:
+    - "{{ caddy_conf }}"
+    - "{{ caddy_confd }}"
+    - "{{ caddy_home }}/logs"
+    - "{{ caddy_www }}"
+
+- name: Caddyfile
+  template: src=caddyfile.j2
+            dest={{ caddy_conf }}/Caddyfile
+  notify: restart caddy
+
+- name: Push vhost test page caddy config
+  template: src=http.caddy.j2
+            dest={{ caddy_confd }}/test.caddy
+  notify: restart caddy
+
+- name: Create test www dir
+  file: path={{ caddy_www }}/test
+        state=directory
+        owner=caddy
+        group=caddy
+
+- name: Push test page source
+  copy: src=test.html
+        dest={{ caddy_www }}/test/index.html
+
+- name: Create Test page logs dir
+  file: path={{ caddy_home }}/logs/test
+        state=directory
+        owner=caddy
+
+- name: Systemd service
+  template: src=caddy.service.j2
+            dest=/etc/systemd/system/caddy.service
+  notify:
+    - start caddy
