@@ -42,6 +42,8 @@ Including an example of how to use your role (for instance, with variables passe
 Run tests
 ---------
 
+Needs galaxy-vagrant to run tests
+
 Ensure galaxy-vagrant is up
 
     ansible-playbook -i tests/inventory tests/test.yml
