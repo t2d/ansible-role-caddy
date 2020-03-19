@@ -26,6 +26,12 @@ http://{{ test_url }}
         rotate_keep  10
     }
 
+    errors {{ caddy_logs }}/{{ test_name }}/errors.log {
+        rotate_size  100
+        rotate_age   30
+        rotate_keep  10
+    }
+
     root {{ test_code }}/
 
     gzip {
