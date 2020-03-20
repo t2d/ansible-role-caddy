@@ -17,7 +17,7 @@
   register: caddy_releases_cache
 
 - name: Download new Caddy version or build
-  get_url: url=https://caddyserver.com/download/linux/amd64?license=personal
+  get_url: url=https://caddyserver.com/download/linux/amd64?license=personal&telemetry=off
            dest=/tmp/caddy.tar.gz
            force=yes
   when: caddy_releases_cache.changed
