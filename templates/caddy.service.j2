@@ -4,14 +4,22 @@ Documentation=https://caddyserver.com/docs
 After=network.target
 
 [Service]
+# Service config and instructions
 WorkingDirectory={{ caddy_home }}
 User=caddy
 LimitNOFILE=8192
-PIDFile={{ caddy_home }}/caddy.pid
-ExecStart=/usr/bin/caddy -agree=true -email={{ caddy_email }} -conf=/etc/caddy/Caddyfile -pidfile={{ caddy_home }}/caddy.pid
+ExecStart=/usr/bin/caddy -agree=true -email={{ caddy_email }} -conf=/etc/caddy/Caddyfile
 ExecReload=/bin/kill -USR1 $MAINPID
 Restart=on-failure
 StartLimitInterval=600
+TimeoutStopSec=5s
+KillSignal=SIGQUIT
+# Service security
+ProtectHome=true
+ProtectSystem=full
+PrivateTmp=true
+ReadWritePaths={{ caddy_home }}
+ReadWriteDirectories={{ caddy_home }}
 
 [Install]
 WantedBy=multi-user.target
