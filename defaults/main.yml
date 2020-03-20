@@ -1,8 +1,8 @@
 ---
 # defaults file for galaxy-caddy
 
-caddy_home: /srv/caddy
-caddy_logs: /srv/caddy/logs
+caddy_home: /opt/caddy
+caddy_logs: /var/log/caddy
 caddy_conf: /etc/caddy
 caddy_confd: /etc/caddy/conf.d
 caddy_www: /var/www/caddy

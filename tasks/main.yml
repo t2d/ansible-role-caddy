@@ -50,7 +50,7 @@
   with_items:
     - "{{ caddy_conf }}"
     - "{{ caddy_confd }}"
-    - "{{ caddy_home }}/logs"
+    - "{{ caddy_logs }}"
     - "{{ caddy_www }}"
 
 - name: Caddyfile
@@ -74,7 +74,7 @@
         dest={{ caddy_www }}/test/index.html
 
 - name: Create Test page logs dir
-  file: path={{ caddy_home }}/logs/test
+  file: path={{ caddy_logs }}/test
         state=directory
         owner=caddy
 
