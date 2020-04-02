@@ -18,7 +18,6 @@ Role Variables
 - caddy_www: directory used to store websites sources
 - caddy_email: email used to register ACME/Let's Encrypt stuff
 - caddy_update: yes/no - activate caddy updates
-
 - test_url: url used for the test page
 - test_https: should the test page use https
 - test_name: name of the test
