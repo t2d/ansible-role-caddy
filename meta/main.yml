@@ -1,6 +1,6 @@
 galaxy_info:
   author: Wilfried OLLIVIER
-  description: Install Caddy webserver on Debian
+  description: Install Caddy (2) webserver on Debian
   company: none
 
   license: WTFPL

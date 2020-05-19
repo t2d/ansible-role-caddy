@@ -8,8 +8,8 @@ After=network.target
 WorkingDirectory={{ caddy_home }}
 User=caddy
 LimitNOFILE=8192
-ExecStart=/usr/bin/caddy -agree=true -email={{ caddy_email }} -conf=/etc/caddy/Caddyfile
-ExecReload=/bin/kill -USR1 $MAINPID
+ExecStart=/usr/bin/caddy run --environ --config /etc/caddy/Caddyfile
+ExecReload=/usr/bin/caddy reload --config /etc/caddy/Caddyfile
 Restart=on-failure
 StartLimitInterval=600
 TimeoutStopSec=5s

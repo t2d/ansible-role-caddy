@@ -9,22 +9,14 @@
         shell=/bin/nologin
   tags: user
 
-- name: Get all Caddy releases
-  get_url: url=https://api.github.com/repos/mholt/caddy/git/refs/tags
-           dest={{ caddy_home }}/releases
-           force=yes
-  when: caddy_update
-  register: caddy_releases_cache
-
 - name: Download new Caddy version or build
-  get_url: url=https://caddyserver.com/download/linux/amd64?license=personal&telemetry=off
-           dest=/tmp/caddy.tar.gz
+  get_url: url=https://github.com/caddyserver/caddy/releases/download/v{{ caddy_version }}/caddy_{{ caddy_version }}_linux_amd64.tar.gz
+           dest=/tmp/caddy_{{ caddy_version }}.tar.gz
            force=yes
-  when: caddy_releases_cache.changed
   register: caddy_binary_cache
 
 - name: Extract new Caddy version or build
-  unarchive: src=/tmp/caddy.tar.gz
+  unarchive: src=/tmp/caddy_{{ caddy_version }}.tar.gz
              dest=/usr/bin/
              copy=no
   when: caddy_binary_cache.changed

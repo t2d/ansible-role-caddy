@@ -19,7 +19,7 @@ Role Variables
 - caddy_email: email used to register ACME/Let's Encrypt stuff
 - caddy_update: yes/no - activate caddy updates
 - test_url: url used for the test page
-- test_https: should the test page use https
+- test_acme: should the test page use acme or internal HTTPS
 - test_name: name of the test
 - test_code: test page source code directory
 - test_www: yes/no - enable redirection from www. to .
