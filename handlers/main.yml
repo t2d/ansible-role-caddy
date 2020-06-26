@@ -7,7 +7,7 @@
            enabled=yes
            daemon_reload=yes
 
-- name: restart caddy
+- name: reload caddy
   service: name=caddy
-           state=restarted
+           state=reloaded
            enabled=yes

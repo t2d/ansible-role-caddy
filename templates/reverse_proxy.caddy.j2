@@ -1,0 +1,5 @@
+{% for key, value in caddy_reverse_proxy.items() %}
+{{ key }} {
+	reverse_proxy {{ value }}
+}
+{% endfor %}

@@ -1,16 +1,10 @@
 ---
 # defaults file for galaxy-caddy
 
-caddy_home: /opt/caddy
-caddy_logs: /var/log/caddy
 caddy_conf: /etc/caddy
 caddy_confd: /etc/caddy/conf.d
-caddy_www: /var/www/caddy
-
-test_url: none.none
-test_acme: no
-test_name: test
-test_code: /var/www/caddy/test
-test_www: no
+caddy_www: /usr/share/caddy
 
 caddy_version: 2.0.0
+caddy_arch: amd64
+caddy_reverse_proxy: {}
